@@ -26,3 +26,16 @@ export function createElement(name, props = {}, ...children) {
 
   return element;
 }
+
+// Гениратор уникальных числе для атрибута code в store
+export function createCode(codeLogs) {
+  for (let i=0; i<100000; i++) {
+    let now = Date()
+    now = Date.parse(now)
+    let code = Math.floor(now * Math.random())
+    code = code%1e5
+    // Проверяем существовал ли когда либо сгенерированный code
+    let isAlife = codeLogs.find(item => item === code) 
+    if (isAlife == undefined) return code
+  }
+}

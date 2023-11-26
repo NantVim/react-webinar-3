@@ -1,9 +1,13 @@
+import {createCode} from './utils'
+
 /**
  * Хранилище состояния приложения
  */
 class Store {
   constructor(initState = {}) {
     this.state = initState;
+    this.codeLogs = []; // Список всех существующих и удаленных атрубетов code в store
+    initState.list.map(item => this.codeLogs.push(item.code)) 
     this.listeners = []; // Слушатели изменений состояния
   }
 
@@ -42,11 +46,18 @@ class Store {
    * Добавление новой записи
    */
   addItem() {
+    let newCode = createCode(this.codeLogs);
     this.setState({
       ...this.state,
-      list: [...this.state.list, {code: this.state.list.length + 1, title: 'Новая запись'}]
-    })
+      list: [...this.state.list, {code: newCode, title: 'Новая запись', selectedCount: 0}]
+    });
+    this.codeLogs.push(newCode);
   };
+
+  // Добавление нового code в codeLogs
+  addCodeLog(newCode) {
+    this.codeLogs.push(newCode)
+  }
 
   /**
    * Удаление записи по коду
@@ -67,8 +78,10 @@ class Store {
     this.setState({
       ...this.state,
       list: this.state.list.map(item => {
+        if (item.selected & item.code != code) item.selected = false
         if (item.code === code) {
-          item.selected = !item.selected;
+            item.selected = !item.selected;
+            if (item.selected) item.selectedCount++;
         }
         return item;
       })
