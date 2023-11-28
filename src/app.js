@@ -1,5 +1,5 @@
 import React from 'react';
-import {createElement} from './utils.js';
+import {declOfNum} from './utils.js';
 import './styles.css';
 
 /**
@@ -26,8 +26,11 @@ function App({store}) {
               <div className={'Item' + (item.selected ? ' Item_selected' : '')}
                    onClick={() => store.selectItem(item.code)}>
                 <div className='Item-code'>{item.code}</div>
-                <div className='Item-title'>{item.title}</div>
-                <div className='Item-celected-count'>{item.selectedCount > 0 ? `Выделяли ${item.selectedCount} раз` : ''}</div>
+                <div className='Item-title'>
+                  {item.title}
+                  <span>{item.selectedCount > 0 ? ` | Выделяли ${item.selectedCount} ${declOfNum(item.selectedCount)}` : ''}</span>
+                </div>
+                
                 <div className='Item-actions'>
                   <button onClick={() => store.deleteItem(item.code)}>
                     Удалить
