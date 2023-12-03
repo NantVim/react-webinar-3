@@ -1,21 +1,34 @@
 import React from "react";
 import PropTypes from 'prop-types';
+import {plural} from "../../utils";
 import './style.css';
 
-function Controls({onAdd}) {
+function Controls({cartValue, cartItemCount, onAction}) {
   return (
     <div className='Controls'>
-      <button onClick={() => onAdd()}>Добавить</button>
+      <div className='Controls-data'>В корзине: &nbsp;
+        <strong>{cartItemCount ? ` ${cartItemCount} ${plural(cartItemCount, {
+        one: 'товар',
+        few: 'товара',
+        many: 'товаров'
+      })}` : ''}</strong>
+      <strong>&nbsp;{cartItemCount ? `/ ${cartValue} ₽` : 'пусто'}</strong>
+      </div>
+      <div className='Controls-actions'>
+        <button onClick={() => onAction()}>&nbsp;Перейти&nbsp;</button>
+      </div>
     </div>
   )
 }
 
 Controls.propTypes = {
-  onAdd: PropTypes.func
+  cartValue: PropTypes.number,
+  cartItemCount: PropTypes.number,
+  onAction: PropTypes.func
 };
 
 Controls.defaultProps = {
-  onAdd: () => {}
+  onAction: () => {}
 }
 
 export default React.memo(Controls);

@@ -1,4 +1,4 @@
-import {generateCode} from "./utils";
+import { generateCode } from "./utils";
 
 /**
  * Хранилище состояния приложения
@@ -43,22 +43,62 @@ class Store {
   /**
    * Добавление новой записи
    */
-  addItem() {
+
+  addItem(code) {
+    let newItem = this.state.list.find(item => item.code === code)
+    let isCopy = this.state.cart.items.find(item => item.code === code)
+    let updateItems = this.state.cart.items.map(item => {
+      if (item.code === code) {
+        return {
+          ...item,
+          count: ++item.count
+        }
+      }
+
+      return item
+    })
+
     this.setState({
       ...this.state,
-      list: [...this.state.list, {code: generateCode(), title: 'Новая запись'}]
+      cart: {
+        ...this.state.cart,
+        items: isCopy ? updateItems : [...updateItems,{...newItem, count: 1}],
+        value: this.state.cart.value + newItem.price,
+        itemCount: ++this.state.cart.itemCount
+      },
     })
-  };
+    console.log(this.state)
+  }
 
   /**
    * Удаление записи по коду
    * @param code
    */
   deleteItem(code) {
+    let item = this.state.cart.items.find(item => item.code === code)
+    let deleteItem = this.state.cart.items.filter(item => item.code !== code)
+
+    // let updateItems = this.state.cart.items.map(item => {
+    //   if (item.code === code) {
+    //     return {
+    //       ...item,
+    //       count: --item.count
+    //     }
+    //   }
+    //   return item
+    // })
+
     this.setState({
       ...this.state,
-      // Новый список, в котором не будет удаляемой записи
-      list: this.state.list.filter(item => item.code !== code)
+      cart: {
+        ...this.state.cart,
+        items: deleteItem,
+        value: this.state.cart.value - item.price * item.count,
+        itemCount: this.state.cart.itemCount - item.count
+        // items: item.count-- ? updateItems : deleteItem,
+        // value: this.state.cart.value - item.price,
+        // itemCount: --this.state.cart.itemCount
+      }
     })
   };
 
@@ -79,8 +119,18 @@ class Store {
           };
         }
         // Сброс выделения если выделена
-        return item.selected ? {...item, selected: false} : item;
+        return item.selected ? { ...item, selected: false } : item;
       })
+    })
+  }
+
+  switchCart() {
+    this.setState({
+      ...this.state,
+      cart: {
+        ...this.state.cart,
+        isOpen: !this.state.cart.isOpen 
+      }
     })
   }
 }

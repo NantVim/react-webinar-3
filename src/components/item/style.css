@@ -2,6 +2,7 @@
   display: flex;
   justify-content: flex-start;
   transition: background-color 1s;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
 .Item_selected {
@@ -16,6 +17,22 @@
 .Item-title {
   width: 100%;
   padding: 20px 10px;
+}
+
+.Item-price {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  padding: 20px 10px;
+  align-items: center;
+}
+
+.Item-count {
+  display: flex;
+  padding: 20px 10px;
+  justify-content: flex-end;
+  align-items: center;
+  min-width: 70px;
 }
 
 .Item-actions {
