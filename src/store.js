@@ -45,17 +45,18 @@ class Store {
    */
 
   addItem(code) {
-    let newItem = this.state.list.find(item => item.code === code)
-    let isCopy = this.state.cart.items.find(item => item.code === code)
+    let newItem = this.state.list.find(item => item.code === code);
+    let isCopy;
     let updateItems = this.state.cart.items.map(item => {
       if (item.code === code) {
+        isCopy = item;
         return {
           ...item,
-          count: ++item.count
+          count: item.count + 1
         }
       }
 
-      return item
+      return item;
     })
 
     this.setState({
@@ -64,29 +65,18 @@ class Store {
         ...this.state.cart,
         items: isCopy ? updateItems : [...updateItems,{...newItem, count: 1}],
         value: this.state.cart.value + newItem.price,
-        itemCount: ++this.state.cart.itemCount
+        itemCount: isCopy ? this.state.cart.itemCount : this.state.cart.itemCount + 1
       },
     })
-    console.log(this.state)
   }
 
   /**
-   * Удаление записи по коду
+   * Удаление товара по коду
    * @param code
    */
   deleteItem(code) {
-    let item = this.state.cart.items.find(item => item.code === code)
-    let deleteItem = this.state.cart.items.filter(item => item.code !== code)
-
-    // let updateItems = this.state.cart.items.map(item => {
-    //   if (item.code === code) {
-    //     return {
-    //       ...item,
-    //       count: --item.count
-    //     }
-    //   }
-    //   return item
-    // })
+    let item = this.state.cart.items.find(item => item.code === code);
+    let deleteItem = this.state.cart.items.filter(item => item.code !== code);
 
     this.setState({
       ...this.state,
@@ -94,12 +84,9 @@ class Store {
         ...this.state.cart,
         items: deleteItem,
         value: this.state.cart.value - item.price * item.count,
-        itemCount: this.state.cart.itemCount - item.count
-        // items: item.count-- ? updateItems : deleteItem,
-        // value: this.state.cart.value - item.price,
-        // itemCount: --this.state.cart.itemCount
+        itemCount: this.state.cart.itemCount - 1
       }
-    })
+    });
   };
 
   /**
@@ -131,7 +118,7 @@ class Store {
         ...this.state.cart,
         isOpen: !this.state.cart.isOpen 
       }
-    })
+    });
   }
 }
 

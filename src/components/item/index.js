@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import PropTypes from "prop-types";
-import {plural} from "../../utils";
+import {plural, numberSpaces} from "../../utils";
 import './style.css';
 
 function Item(props) {
@@ -35,7 +35,7 @@ function Item(props) {
         many: 'раз'
       })}` : ''}
       </div>
-      <div className='Item-price'>{props.item.price} ₽</div>
+      <div className='Item-price'>{numberSpaces(props.item.price)} ₽</div>
       {props.item.count && <div className='Item-count'>{props.item.count ? `${props.item.count} шт` : ''}</div>}
       <div className='Item-actions'>
         <button onClick={callbacks.onAddItem}>

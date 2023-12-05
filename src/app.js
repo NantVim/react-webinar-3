@@ -3,7 +3,8 @@ import List from "./components/list";
 import Controls from "./components/controls";
 import Head from "./components/head";
 import PageLayout from "./components/page-layout";
-import Cart from "./components/cart"
+import ModalWindow from "./components/modal-window";
+import CartValue from './components/cart-value';
 
 /**
  * Приложение
@@ -36,15 +37,19 @@ function App({ store }) {
   return (
     <PageLayout>
       <Head title='Магазин' />
-      <Controls cartValue={cart.value} 
-                cartItemCount={cart.itemCount} 
-                onAction={callbacks.onSwitchCart} />
-      <List list={list} 
-            onActionItem={callbacks.onAddItem} 
-            actionTitle='Добавить'/>
-      <Cart cart={cart} 
-            onCloseCart={callbacks.onSwitchCart}
-            onDeleteItem={callbacks.onDeleteItem}/>
+      <Controls cartValue={cart.value}
+        cartItemCount={cart.itemCount}
+        onAction={callbacks.onSwitchCart} />
+      <List list={list}
+        onActionItem={callbacks.onAddItem}
+        actionTitle='Добавить' />
+      {cart.isOpen &&
+        <ModalWindow title='Корзина' onCloseModal={callbacks.onSwitchCart}>
+          <List list={cart.items} onActionItem={callbacks.onDeleteItem} actionTitle='Удалить' />
+          <CartValue cartValue={cart.value}/>
+        </ModalWindow>
+      }
+
     </PageLayout>
   );
 }

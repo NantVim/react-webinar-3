@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from 'prop-types';
-import {plural} from "../../utils";
+import {plural, numberSpaces} from "../../utils";
 import './style.css';
 
 function Controls({cartValue, cartItemCount, onAction}) {
@@ -12,7 +12,7 @@ function Controls({cartValue, cartItemCount, onAction}) {
         few: 'товара',
         many: 'товаров'
       })}` : ''}</strong>
-      <strong>&nbsp;{cartItemCount ? `/ ${cartValue} ₽` : 'пусто'}</strong>
+      <strong>&nbsp;{cartItemCount ? `/ ${numberSpaces(cartValue)} ₽` : 'пусто'}</strong>
       </div>
       <div className='Controls-actions'>
         <button onClick={() => onAction()}>&nbsp;Перейти&nbsp;</button>
