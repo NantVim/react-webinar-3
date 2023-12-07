@@ -1,9 +1,17 @@
 /* Контрол с общими действиями */
 .BasketTool {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   padding: 20px;
   font-size: 18px;
+}
+
+.BasketTool-nav {
+
+}
+
+.BasketTool-basket-controls {
+  display: flex;
 }
 
 .BasketTool-label {
