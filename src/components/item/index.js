@@ -8,20 +8,19 @@ import './style.css';
 function Item(props) {
 
   const cn = bem('Item');
-
   const callbacks = {
-    onAdd: (e) => props.onAdd(props.item._id)
+    onAdd: (e) => props.onAdd(props.item.item._id)
   }
 
   return (
     <div className={cn()}>
       {/*<div className={cn('code')}>{props.item._id}</div>*/}
       <div className={cn('title')}>
-        <Link to={`/product/${props.item._id}`}>{props.item.title}</Link>
+        <Link to={`/product/${props.item.item._id}`}>{props.item.item.title}</Link>
       </div>
       <div className={cn('actions')}>
-        <div className={cn('price')}>{numberFormat(props.item.price)} ₽</div>
-        <button onClick={callbacks.onAdd}>Добавить</button>
+        <div className={cn('price')}>{numberFormat(props.item.item.price)} ₽</div>
+        <button onClick={callbacks.onAdd}>{props.item.dictionary.action}</button>
       </div>
     </div>
   );

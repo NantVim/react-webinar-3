@@ -2,11 +2,11 @@ import {memo} from 'react';
 import { Link } from 'react-router-dom';
 import './style.css'
 
-function Navigation() {
+function Navigation({dictionary}) {
     return(
         <div className='Navigation'>
             <span className={'Navigation-item'}>
-                <Link to='/'>Главная</Link>
+                <Link to='/'>{dictionary.home}</Link>
             </span>
         </div>
     )

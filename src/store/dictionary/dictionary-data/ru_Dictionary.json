@@ -1,0 +1,36 @@
+{
+    "head": {
+        "title": "Магазин",
+        "tool": "EN"
+    },
+    "controlPanel": {
+        "navigation": {
+            "home": "Главная"
+        },
+        "basketTool": {
+            "label": "В корзине: ",
+            "standart": "пусто",
+            "total": ["товар","товара","товаров"],
+            "action": "Перейти"
+        }
+    },
+    "basket": {
+        "title": "Корзина",
+        "action": "Закрыть",
+        "basketItem": {
+            "cell": "шт",
+            "action": "Удалить"
+        },
+        "basketTotal": "Итого"
+    },
+    "catalog": {
+        "action": "Добавить"
+    },
+    "product": {
+        "madeIn": "Страна производитель: ",
+        "category": "Категория: ",
+        "edt": "Год выпуска: ",
+        "price": "Цена: ",
+        "action": "Добавить"
+    }
+}

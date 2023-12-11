@@ -4,23 +4,23 @@ import { cn as bem } from '@bem-react/classname';
 import { numberFormat, plural } from "../../utils";
 import './style.css';
 
-function BasketTool({ sum, amount, onOpen }) {
+function BasketTool({ sum, amount, onOpen, dictionary }) {
   const cn = bem('BasketTool');
   return (
     <div className={cn()}>
       <div className={cn('basket-controls')}>
-        <span className={cn('label')}>В корзине:</span>
+        <span className={cn('label')}>{dictionary.label}</span>
         <span className={cn('total')}>
           {amount
             ? `${amount} ${plural(amount, {
-              one: 'товар',
-              few: 'товара',
-              many: 'товаров'
+              one: dictionary.total[0],
+              few: dictionary.total[1],
+              many: dictionary.total[2]
             })} / ${numberFormat(sum)} ₽`
-            : `пусто`
+            : `${dictionary.standart}`
           }
         </span>
-        <button onClick={onOpen}>Перейти</button>
+        <button onClick={onOpen}>{dictionary.action}</button>
       </div>
     </div>
   );

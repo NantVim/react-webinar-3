@@ -1,0 +1,36 @@
+{
+    "head": {
+        "title": "Shop",
+        "tool": "RU"
+    },
+    "controlPanel": {
+        "navigation": {
+            "home": "Home"
+        },
+        "basketTool": {
+            "label": "In the basket: ",
+            "standart": "empty",
+            "total": ["product","products","products"],
+            "action": "Open"
+        }
+    },
+    "basket": {
+        "title": "Basket",
+        "action": "Close",
+        "basketItem": {
+            "cell": "pc",
+            "action": "Remove"
+        },
+        "basketTotal": "Total"
+    },
+    "catalog": {
+        "action": "Add"
+    },
+    "product": {
+        "madeIn": "Manufacturing country: ",
+        "category": "Category: ",
+        "edt": "Year of release: ",
+        "price": "Price: ",
+        "action": "Add"
+    }
+}

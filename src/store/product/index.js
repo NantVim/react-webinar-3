@@ -14,8 +14,8 @@ class Product extends StoreModule {
     }
   }
 
-  async load(id) {
-    const response = await fetch(`/api/v1/articles/${id}?fields=*,madeIn(title,code),category(title)`);
+  async load(id, langCode) {
+    const response = await fetch(`/api/v1/articles/${id}?fields=*,madeIn(title,code),category(title)&lang=${langCode}`);
     const json = await response.json();
     this.setState({
       ...this.getState(),

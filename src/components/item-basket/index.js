@@ -11,20 +11,20 @@ function ItemBasket(props) {
   const cn = bem('ItemBasket');
 
   const callbacks = {
-    onRemove: (e) => props.onRemove(props.item._id)
+    onRemove: (e) => props.onRemove(props.item.item._id)
   };
 
   return (
     <div className={cn()}>
       {/*<div className={cn('code')}>{props.item._id}</div>*/}
       <div className={cn('title')}>
-        <Link to={`/product/${props.item._id}`}>{props.item.title}</Link>
+        <Link to={`/product/${props.item.item._id}`}>{props.item.item.title}</Link>
       </div>
       <div className={cn('right')}>
-        <div className={cn('cell')}>{numberFormat(props.item.price)} ₽</div>
-        <div className={cn('cell')}>{numberFormat(props.item.amount || 0)} шт</div>
+        <div className={cn('cell')}>{numberFormat(props.item.item.price)} ₽</div>
+        <div className={cn('cell')}>{numberFormat(props.item.item.amount || 0)} {props.item.dictionary.cell}</div>
         <div className={cn('cell')}>
-          <button onClick={callbacks.onRemove}>Удалить</button>
+          <button onClick={callbacks.onRemove}>{props.item.dictionary.action}</button>
         </div>
       </div>
     </div>

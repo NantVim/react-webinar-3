@@ -1,4 +1,4 @@
-import {memo, useCallback} from 'react';
+import {memo, useCallback, useEffect} from 'react';
 import { redirect } from 'react-router-dom';
 import ItemBasket from "../../components/item-basket";
 import List from "../../components/list";
@@ -14,8 +14,13 @@ function Basket() {
   const select = useSelector(state => ({
     list: state.basket.list,
     amount: state.basket.amount,
-    sum: state.basket.sum
+    sum: state.basket.sum,
+    dictionary: state.dictionary
   }));
+
+  useEffect(() => {
+    store.actions.basket.updateBasket(store.actions.dictionary.getLangCode())
+  }, []);
 
   const callbacks = {
     // Удаление из корзины
@@ -31,9 +36,13 @@ function Basket() {
   };
 
   return (
-    <ModalLayout title='Корзина' onClose={callbacks.closeModal}>
-      <List list={select.list} renderItem={renders.itemBasket} />
-      <BasketTotal sum={select.sum}/>
+    <ModalLayout  title={select.dictionary.basket.title} 
+                  dictionary={select.dictionary.basket}
+                  onClose={callbacks.closeModal}>
+      <List dictionary={select.dictionary.basket.basketItem} 
+            list={select.list} 
+            renderItem={renders.itemBasket} />
+      <BasketTotal sum={select.sum} dictionary={select.dictionary.basket.basketTotal}/>
     </ModalLayout>
   );
 }

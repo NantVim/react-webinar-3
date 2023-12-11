@@ -1,0 +1,13 @@
+.LanguageTool {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+}
+
+.LanguageTool-item {
+    background-color: #0087E9;
+    color: #fff;
+    border: none;
+    font-size: 18px;
+    border-radius: 5px;
+}

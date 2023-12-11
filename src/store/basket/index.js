@@ -14,7 +14,7 @@ class Basket extends StoreModule {
    * Добавление товара в корзину
    * @param _id Код товара
    */
-  async addToBasket(_id) {
+  async addToBasket(_id, langCode) {
     let sum = 0;
     // Ищем товар в корзине, чтобы увеличить его количество
     let exist = false;
@@ -32,7 +32,7 @@ class Basket extends StoreModule {
       // Поиск товара в каталоге, чтобы его добавить в корзину.
       // @todo В реальном приложении будет запрос к АПИ вместо поиска по состоянию.
       //const item = this.store.getState().catalog.list.find(item => item._id === _id);
-      const item = await this.load(_id)
+      const item = await this.load(_id, langCode)
       list.push({...item, amount: 1}); // list уже новый, в него можно пушить.
       // Добавляем к сумме.
       
@@ -47,8 +47,32 @@ class Basket extends StoreModule {
     }, 'Добавление в корзину');
   }
 
-  async load(id) {
-    const response = await fetch(`/api/v1/articles/${id}?fields=_id, title, price`);
+  // Медот не нужен если хранить state на сервере
+  async updateBasket(langCode) {
+    let idList = '';
+    this.getState().list.map(item => idList = idList + "|" + item._id)
+    const response = await fetch(`/api/v1/articles?search%5Bids%5D=${idList}&fields=items(title)&lang=${langCode}`);
+    const json = await response.json();
+
+    let newDataList = [];
+    let dataList = this.getState().list;
+    json.result.items.map(item => {
+      let data = dataList.filter(e => e._id === item._id)[0]
+      let newData = {
+        ...item,
+        price: data.price,
+        amount: data.amount
+      }
+      newDataList.push(newData)
+    })
+
+    this.setState({
+      list: newDataList
+    })
+  }
+
+  async load(id, langCode) {
+    const response = await fetch(`/api/v1/articles/${id}?fields=_id, title, price&lang=${langCode}`);
     const json = await response.json();
     return (json.result);
   }

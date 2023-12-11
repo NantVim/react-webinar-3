@@ -17,7 +17,7 @@ function Product() {
 
   useEffect(() => {
     store.actions.modals.close();
-    store.actions.product.load(id);
+    store.actions.product.load(id, store.actions.dictionary.getLangCode());
   }, [id]);
 
   const select = useSelector(state => ({
@@ -31,25 +31,37 @@ function Product() {
       category: state.product.category,
       edition: state.product.edition,
       price: state.product.price
-    }
+    },
+    dictionary: state.dictionary
   }));
   
   const callbacks = {
     // Добавление в корзину
-    addToBasket: useCallback(id => store.actions.basket.addToBasket(id), [store]),
+    addToBasket: useCallback(id => store.actions.basket.addToBasket(id, store.actions.dictionary.getLangCode()), [store]),
     // Открытие модалки корзины
     openModalBasket: useCallback(() => store.actions.modals.open('basket'), [store]),
+    // Изменение языка
+    changeLang: useCallback(() => {
+      store.actions.dictionary.changeLang(store.actions.dictionary.getLangCode());
+      store.actions.product.load(id, store.actions.dictionary.getLangCode());
+    })
   }
 
   return (
     <PageLayout>
-      <Head title={select.title}/>
+      <Head title={select.title} 
+            changeLang={callbacks.changeLang} 
+            dictionary={select.dictionary.head} />
       <ControlPanel>
-        <Navigation/>
-        <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount}
-                  sum={select.sum}/>
+        <Navigation dictionary={select.dictionary.controlPanel.navigation}/>
+        <BasketTool onOpen={callbacks.openModalBasket} 
+                    amount={select.amount}
+                    sum={select.sum}
+                    dictionary={select.dictionary.controlPanel.basketTool}/>
       </ControlPanel>
-      <ProductArticle productInfo={select.productInfo} onAdd={callbacks.addToBasket} />
+      <ProductArticle productInfo={select.productInfo} 
+                      onAdd={callbacks.addToBasket} 
+                      dictionary={select.dictionary.product}/>
     </PageLayout>
   );
 }

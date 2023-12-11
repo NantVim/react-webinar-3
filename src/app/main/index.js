@@ -15,7 +15,7 @@ function Main() {
   const store = useStore();
 
   useEffect(() => {
-    store.actions.catalog.load(1);
+    store.actions.catalog.load(1, store.actions.dictionary.getLangCode());
   }, []);
 
   const select = useSelector(state => ({
@@ -23,16 +23,22 @@ function Main() {
     amount: state.basket.amount,
     sum: state.basket.sum,
     pageCount: state.catalog.pageCount,
-    selectedPage: state.catalog.selectedPage
+    selectedPage: state.catalog.selectedPage,
+    dictionary: state.dictionary
   }));
 
   const callbacks = {
     // Добавление в корзину
-    addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id), [store]),
+    addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id, store.actions.dictionary.getLangCode()), [store]),
     // Открытие модалки корзины
     openModalBasket: useCallback(() => store.actions.modals.open('basket'), [store]),
     // Загрузка страницы списка по номеру страницы
-    changePage: useCallback(pageNumber => store.actions.catalog.load(pageNumber), [])
+    changePage: useCallback(pageNumber => store.actions.catalog.load(pageNumber, store.actions.dictionary.getLangCode()), []),
+    // Изменение языка
+    changeLang: useCallback(() => {
+      store.actions.dictionary.changeLang(store.actions.dictionary.getLangCode())
+      store.actions.catalog.load(select.selectedPage, store.actions.dictionary.getLangCode())
+    })
   }
 
   const renders = {
@@ -43,13 +49,19 @@ function Main() {
 
   return (
     <PageLayout>
-      <Head title='Магазин'/>
+      <Head title={select.dictionary.head.title} 
+            changeLang={callbacks.changeLang}
+            dictionary={select.dictionary.head} />
       <ControlPanel>
-        <Navigation/>
-        <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount}
-                  sum={select.sum}/>
+        <Navigation dictionary={select.dictionary.controlPanel.navigation}/>
+        <BasketTool onOpen={callbacks.openModalBasket} 
+                    amount={select.amount}
+                    sum={select.sum}
+                    dictionary={select.dictionary.controlPanel.basketTool}/>
       </ControlPanel>
-      <List list={select.list} renderItem={renders.item}/>
+      <List list={select.list} 
+            renderItem={renders.item} 
+            dictionary={select.dictionary.catalog}/>
       <Pagination pageCount={select.pageCount} 
                   selectedPage={select.selectedPage}
                   changePage={callbacks.changePage}/>

@@ -14,11 +14,11 @@ function ProductArticle(props) {
     return(
         <div className={cn()}>
             <div className={cn('description')}>{props.productInfo.description}</div>
-            <div className={cn('country')}>Страна производитель: <strong>{props.productInfo.madeIn}</strong></div>
-            <div className={cn('category')}>Категория: <strong>{props.productInfo.category}</strong></div>
-            <div className={cn('edition')}>Год выпуска: <strong>{props.productInfo.edition}</strong></div>
-            <div className={cn('price')}><strong>Цена: &nbsp;{props.productInfo.price} ₽</strong></div>
-            <button className={cn('action')} onClick={callbacks.onAdd}>Добавить</button>
+            <div className={cn('country')}>{props.dictionary.madeIn} <strong>{props.productInfo.madeIn}</strong></div>
+            <div className={cn('category')}>{props.dictionary.category} <strong>{props.productInfo.category}</strong></div>
+            <div className={cn('edition')}>{props.dictionary.edt} <strong>{props.productInfo.edition}</strong></div>
+            <div className={cn('price')}><strong>{props.dictionary.price} &nbsp;{props.productInfo.price} ₽</strong></div>
+            <button className={cn('action')} onClick={callbacks.onAdd}>{props.dictionary.action}</button>
         </div>
     )
 }
