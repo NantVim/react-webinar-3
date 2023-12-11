@@ -1,12 +1,11 @@
 import {memo, useCallback, useEffect} from 'react';
 import { useParams } from 'react-router-dom';
-import Item from "../../components/item";
 import PageLayout from "../../components/page-layout";
 import Head from "../../components/head";
 import BasketTool from "../../components/basket-tool";
 import ProductArticle from '../../components/product-article';
-import List from "../../components/list";
-import Pagination from "../../components/pagination";
+import ControlPanel from '../../components/control-panel';
+import Navigation from '../../components/navigation';
 import useStore from "../../store/use-store";
 import useSelector from "../../store/use-selector";
 
@@ -34,20 +33,23 @@ function Product() {
       price: state.product.price
     }
   }));
-
+  
   const callbacks = {
     // Добавление в корзину
     addToBasket: useCallback(id => store.actions.basket.addToBasket(id), [store]),
     // Открытие модалки корзины
-    openModalBasket: useCallback(() => store.actions.modals.open('basket'), [store])
+    openModalBasket: useCallback(() => store.actions.modals.open('basket'), [store]),
   }
 
   return (
     <PageLayout>
       <Head title={select.title}/>
-      <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount}
+      <ControlPanel>
+        <Navigation/>
+        <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount}
                   sum={select.sum}/>
-      <ProductArticle productInfo={select.productInfo} onAdd={callbacks.addToBasket}/>
+      </ControlPanel>
+      <ProductArticle productInfo={select.productInfo} onAdd={callbacks.addToBasket} />
     </PageLayout>
   );
 }

@@ -24,8 +24,7 @@ class Catalog extends StoreModule {
       ...this.getState(),
       list: json.result.items,
       pageCount: Math.ceil(json.result.count / 10),
-      selectedPage: pageNumber,
-      pageList: pageNumber<2?[1, pageNumber+1, pageNumber+2] : [pageNumber-1,pageNumber,pageNumber+1]
+      selectedPage: pageNumber
     }, 'Загружены товары из АПИ');
   }
 }

@@ -1,8 +1,11 @@
-import { memo } from "react";
 import PropTypes from 'prop-types';
+import { paginationList } from '../../utils';
 import './style.css'
 
-function Pagination({ pageCount, selectedPage, changePage, pageList }) {
+function Pagination({ pageCount, selectedPage, changePage }) {
+
+    const pageList = paginationList(pageCount, selectedPage);
+
     return (
         <div className="Pagination">
             <div className="Pagination-list">
@@ -26,11 +29,10 @@ Pagination.propTypes = {
     pageCount: PropTypes.number.isRequired,
     selectedPage: PropTypes.number.isRequired,
     changePage: PropTypes.func,
-    pageList: PropTypes.array.isRequired
 };
 
 Pagination.defaultProps = {
     changePage: () => { },
 }
 
-export default memo(Pagination);
+export default Pagination;

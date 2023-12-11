@@ -33,3 +33,13 @@ export function codeGenerator(start = 0) {
 export function numberFormat(value, locale = 'ru-RU', options = {}) {
   return new Intl.NumberFormat(locale, options).format(value);
 }
+
+export function paginationList(pageCount, selectedPage) {
+    if (selectedPage<2) {
+      return([1, selectedPage+1, selectedPage+2]);
+    } else if (selectedPage >= pageCount) {
+      return([selectedPage-2, selectedPage-1, selectedPage]);
+    } else {
+      return([selectedPage-1, selectedPage, selectedPage+1]);
+    }
+}

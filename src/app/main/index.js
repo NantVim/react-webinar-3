@@ -7,6 +7,8 @@ import List from "../../components/list";
 import Pagination from "../../components/pagination";
 import useStore from "../../store/use-store";
 import useSelector from "../../store/use-selector";
+import ControlPanel from '../../components/control-panel';
+import Navigation from '../../components/navigation';
 
 function Main() {
 
@@ -21,8 +23,7 @@ function Main() {
     amount: state.basket.amount,
     sum: state.basket.sum,
     pageCount: state.catalog.pageCount,
-    selectedPage: state.catalog.selectedPage,
-    pageList: state.catalog.pageList
+    selectedPage: state.catalog.selectedPage
   }));
 
   const callbacks = {
@@ -43,12 +44,14 @@ function Main() {
   return (
     <PageLayout>
       <Head title='Магазин'/>
-      <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount}
+      <ControlPanel>
+        <Navigation/>
+        <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount}
                   sum={select.sum}/>
+      </ControlPanel>
       <List list={select.list} renderItem={renders.item}/>
       <Pagination pageCount={select.pageCount} 
                   selectedPage={select.selectedPage}
-                  pageList={select.pageList}
                   changePage={callbacks.changePage}/>
     </PageLayout>
   );

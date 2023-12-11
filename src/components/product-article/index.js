@@ -17,14 +17,14 @@ function ProductArticle(props) {
             <div className={cn('country')}>Страна производитель: <strong>{props.productInfo.madeIn}</strong></div>
             <div className={cn('category')}>Категория: <strong>{props.productInfo.category}</strong></div>
             <div className={cn('edition')}>Год выпуска: <strong>{props.productInfo.edition}</strong></div>
-            <div className={cn('price')}><strong>Цена: {props.productInfo.price} ₽</strong></div>
+            <div className={cn('price')}><strong>Цена: &nbsp;{props.productInfo.price} ₽</strong></div>
             <button className={cn('action')} onClick={callbacks.onAdd}>Добавить</button>
         </div>
     )
 }
 
 ProductArticle.propTypes = {
-    id: PropTypes.number.isRequired,
+    id: PropTypes.number,
     description: PropTypes.string,
     madeIn: PropTypes.string,
     category: PropTypes.string,
@@ -34,6 +34,7 @@ ProductArticle.propTypes = {
 };
 
 ProductArticle.defaultProps = {
+    id: 0,
     description: 'Описание не найдено',
     madeIn: 'Страна не найдена',
     category: 'Категория не найдена',

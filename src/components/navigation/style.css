@@ -1,0 +1,17 @@
+.Navigation {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+}
+
+.Navigation-item {
+    margin-right: 20px;
+    font-size: 18px;
+    color: #0087E9;
+    text-decoration: none;
+}
+
+.Navigation-item a{
+    font-size: 18px;
+    color: #0087E9;
+}
