@@ -1,0 +1,29 @@
+.Form {
+    display: flex;
+    flex-direction: column;
+    width: 203px;
+    padding: 20px;
+}
+
+.Form-title {
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.item-label{
+    font-size: 16px;
+}
+
+.Form-item {
+    margin-bottom: 20px;
+}
+
+.Form-error {
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #FF0000;
+}
+
+.Form-action {
+    width: 53px;
+}

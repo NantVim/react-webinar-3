@@ -16,8 +16,10 @@ class CatalogState extends StoreModule {
         page: 1,
         limit: 10,
         sort: 'order',
-        query: ''
+        query: '',
+        category: 'all'
       },
+      categoryList: [],
       count: 0,
       waiting: false
     }
@@ -36,6 +38,10 @@ class CatalogState extends StoreModule {
     if (urlParams.has('limit')) validParams.limit = Math.min(Number(urlParams.get('limit')) || 10, 50);
     if (urlParams.has('sort')) validParams.sort = urlParams.get('sort');
     if (urlParams.has('query')) validParams.query = urlParams.get('query');
+
+    
+
+
     await this.setParams({...this.initState().params, ...validParams, ...newParams}, true);
   }
 
@@ -84,12 +90,35 @@ class CatalogState extends StoreModule {
       'search[query]': params.query
     };
 
-    const response = await fetch(`/api/v1/articles?${new URLSearchParams(apiParams)}`);
+    const categoryApiParams = params.category == 'all' ? '' : `&search[category]=${params.category}`
+
+    // Получение списка категорий
+    const categoryListResponse = await fetch(`/api/v1/categories?fields=_id,title,parent(_id)&limit=*`);
+    const categoryJson = await categoryListResponse.json();
+
+    let newCategoryList = [{title: 'Все', value: 'all'}];
+    let parentList = [];
+
+    categoryJson.result.items.map(item => parentList.push(item._id));
+
+    for (let i=0; i < categoryJson.result.items.length; i++) {
+      const item = await categoryJson.result.items[i];
+      let separator = '-'
+      if (item.parent) {
+        newCategoryList.push({title: separator + item.title, value: item._id});
+      } else {
+        newCategoryList.push({title: item.title, value: item._id});
+      }
+      
+    }
+
+    const response = await fetch(`/api/v1/articles?${new URLSearchParams(apiParams)}${categoryApiParams}`);
     const json = await response.json();
     this.setState({
       ...this.getState(),
       list: json.result.items,
       count: json.result.count,
+      categoryList: newCategoryList,
       waiting: false
     }, 'Загружен список товаров из АПИ');
   }

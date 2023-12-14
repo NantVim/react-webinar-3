@@ -1,0 +1,14 @@
+.UserTool {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.UserTool a {
+    text-decoration: none;
+    color: #fff;
+    margin-right: 20px;
+}
+
