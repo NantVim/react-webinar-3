@@ -1,4 +1,3 @@
-import authForm from "../../containers/auth-form";
 import StoreModule from "../module";
 
 class AuthState extends StoreModule {
@@ -7,11 +6,7 @@ class AuthState extends StoreModule {
             authForm: {
                 login: '',
                 password: ''
-            },
-            login: '',
-            authToken: '',
-            error: '',
-            user: ''
+            }
         }
     }
 
@@ -30,33 +25,38 @@ class AuthState extends StoreModule {
             ...this.getState(),
             authForm: {
                 login: this.getState().authForm.login,
-                password: updatePassword,
+                password: updatePassword
             }
         })
     }
 
     async login() {
-        console.log(this.getState().authForm)
-        try {
-            const response = await fetch(`/api/v1/users/sign`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json;charset=utf-8'},
-                body: JSON.stringify(this.getState().authForm)
-            });
+        const response = await fetch(`/api/v1/users/sign`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json;charset=utf-8' },
+            body: JSON.stringify(this.getState().authForm)
+        });
 
-            const json = await response.json();
-            json.error ? this.setState({...this.getState(), error: json.error.message}) : '';
+        const json = await response.json();
+        json.error ? this.setState({ ...this.getState(), error: json.error.data.issues[0].message }) : '';
 
+        if (json.result) {
+            localStorage.setItem('X-Token', json.result.token);
             this.setState({
-                ...this.getState(),
-                authToken: json.response.token,
-                user: json.response.user
+                authForm: {
+                    login: '',
+                    password: ''
+                }
             })
-
-            console.log(json)
-        } catch (error) {
-            
         }
+    }
+
+    wipeData() {
+        this.setState({
+            authForm:{
+                ...this.getState().authForm
+            }
+        })
     }
 }
 

@@ -17,9 +17,8 @@ class CatalogState extends StoreModule {
         limit: 10,
         sort: 'order',
         query: '',
-        category: 'all'
+        category: 'all'        
       },
-      categoryList: [],
       count: 0,
       waiting: false
     }
@@ -38,6 +37,7 @@ class CatalogState extends StoreModule {
     if (urlParams.has('limit')) validParams.limit = Math.min(Number(urlParams.get('limit')) || 10, 50);
     if (urlParams.has('sort')) validParams.sort = urlParams.get('sort');
     if (urlParams.has('query')) validParams.query = urlParams.get('query');
+    if (urlParams.has('category')) validParams.category = urlParams.get('category');
 
     
 
@@ -87,30 +87,14 @@ class CatalogState extends StoreModule {
       skip: (params.page - 1) * params.limit,
       fields: 'items(*),count',
       sort: params.sort,
-      'search[query]': params.query
+      'search[query]': params.query,
     };
 
-    const categoryApiParams = params.category == 'all' ? '' : `&search[category]=${params.category}`
-
-    // Получение списка категорий
-    const categoryListResponse = await fetch(`/api/v1/categories?fields=_id,title,parent(_id)&limit=*`);
-    const categoryJson = await categoryListResponse.json();
-
-    let newCategoryList = [{title: 'Все', value: 'all'}];
-    let parentList = [];
-
-    categoryJson.result.items.map(item => parentList.push(item._id));
-
-    for (let i=0; i < categoryJson.result.items.length; i++) {
-      const item = await categoryJson.result.items[i];
-      let separator = '-'
-      if (item.parent) {
-        newCategoryList.push({title: separator + item.title, value: item._id});
-      } else {
-        newCategoryList.push({title: item.title, value: item._id});
-      }
-      
+    let categoryApiParams = '';
+    if (params.category) {
+      categoryApiParams = params.category === 'all' ? '' : `&search[category]=${params.category}`
     }
+    
 
     const response = await fetch(`/api/v1/articles?${new URLSearchParams(apiParams)}${categoryApiParams}`);
     const json = await response.json();
@@ -118,7 +102,6 @@ class CatalogState extends StoreModule {
       ...this.getState(),
       list: json.result.items,
       count: json.result.count,
-      categoryList: newCategoryList,
       waiting: false
     }, 'Загружен список товаров из АПИ');
   }

@@ -1,4 +1,6 @@
 import {useCallback, useContext, useEffect, useState} from 'react';
+import useStore from "../hooks/use-store";
+import useInit from "../hooks/use-init";
 import {Routes, Route} from 'react-router-dom';
 import useSelector from "../hooks/use-selector";
 import Main from "./main";
@@ -13,7 +15,13 @@ import Profile from './profile';
  */
 function App() {
 
+  const store = useStore();
+
   const activeModal = useSelector(state => state.modals.name);
+
+  useInit(() => {
+    store.actions.profile.authCheck();
+  }, [store], true);
 
   return (
     <>

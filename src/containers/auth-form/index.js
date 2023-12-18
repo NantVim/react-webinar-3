@@ -1,12 +1,24 @@
-import {memo, useMemo, useCallback} from 'react';
+import {memo, useMemo, useCallback, useEffect} from 'react';
 import useStore from "../../hooks/use-store";
 import useSelector from "../../hooks/use-selector";
+import { useNavigate } from "react-router-dom";
 import Form from '../../components/form';
-import auth from '../../app/auth';
+import useTranslate from "../../hooks/use-translate";
 
 function AuthForm() {
 
     const store = useStore();
+
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        store.actions.auth.wipeData();
+    }, [])
+
+    useEffect(() => {
+        localStorage.getItem('X-Token') ? navigate('/profile') : ''
+    })
+    
 
     const select = useSelector(state => ({
         authForm: state.auth.authForm,
@@ -22,19 +34,22 @@ function AuthForm() {
         inputPassword: useCallback (value => store.actions.auth.inputPassword(value), [store]),
     }
 
+    const { t } = useTranslate();
+
     const options = {
         inputs: useMemo(() => ([
-          {key: 1, title: 'Логин', type: 'text', value: select.authForm.login, action:callbacks.inputLogin},
-          {key: 2, title: 'Пароль', type: 'password', value: select.authForm.password, action:callbacks.inputPassword},
+          {key: 1, title: t('auth.login'), type: 'text', value: select.authForm.login, action:callbacks.inputLogin},
+          {key: 2, title: t('auth.pass'), type: 'password', value: select.authForm.password, action:callbacks.inputPassword},
         ]), [])
       };
     
+
     return(
         <Form   items={options.inputs} 
                 formData={select.authForm}
                 onInput={callbacks.inputData}
-                title='Вход' 
-                actionTitle='Войти'
+                title={t('auth.title')} 
+                actionTitle={t('auth.action')}
                 error={select.error}
                 action={callbacks.onAuth}
         />

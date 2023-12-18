@@ -2,7 +2,7 @@ import {memo} from 'react';
 import Input from '../input';
 import 'style.css';
 
-function Form({items, formData, title, onInput, actionTitle, action, error}) {
+function Form({items, title, actionTitle, action, error}) {
     return(
         <div className='Form'>
             <strong className='Form-title'>{title}</strong>
@@ -13,7 +13,7 @@ function Form({items, formData, title, onInput, actionTitle, action, error}) {
                 </div>
             ))}
             <span className='Form-error'>{error}</span>
-            <button className='Form-action' onClick={action}>{actionTitle}</button>
+            <button className='Form-action' onClick={action} >{actionTitle}</button>
         </div>
     )
 }

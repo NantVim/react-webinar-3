@@ -1,12 +1,13 @@
-import {memo} from 'react';
+import {memo, useCallback} from 'react';
 import useStore from "../../hooks/use-store";
 import useTranslate from "../../hooks/use-translate";
+import useSelector from "../../hooks/use-selector";
 import useInit from "../../hooks/use-init";
 import Navigation from "../../containers/navigation";
 import PageLayout from "../../components/page-layout";
 import Head from "../../components/head";
 import LocaleSelect from "../../containers/locale-select";
-import Usertool from '../../components/user-tool';
+import ProfileTool from '../../components/profile-tool';
 import AuthForm from '../../containers/auth-form';
 
 /**
@@ -16,6 +17,15 @@ function Auth() {
 
   const store = useStore();
 
+  const select = useSelector(state => ({
+    username: state.profile.username
+  }))
+
+  const callbacks = {
+    // Выход из аккаунта
+    signOut: useCallback(() => store.actions.profile.signOut(), [store]),
+  }
+
   useInit(() => {
     store.actions.catalog.initParams();
   }, [], true);
@@ -24,7 +34,7 @@ function Auth() {
 
   return (
     <PageLayout>
-      <Usertool/>
+      <ProfileTool username={select.username} signOut={callbacks.signOut} t={t}/>
       <Head title={t('title')}>
         <LocaleSelect/>
       </Head>

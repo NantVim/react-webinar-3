@@ -1,10 +1,9 @@
 import { memo } from "react";
 import 'style.css';
 
-function ProfileItem({title, value, key}) {
-
+function ProfileItem({title, value}) {
     return (
-        <div key={key} className='ProfileItem'>
+        <div className='ProfileItem'>
             <span className="ProfileItem-title">{title}</span>
             <strong className="ProfileItem-value">{value}</strong>
         </div>
