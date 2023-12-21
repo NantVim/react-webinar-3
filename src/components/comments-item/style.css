@@ -1,0 +1,37 @@
+.CommentsItem {
+    display: flex;
+    flex-direction: column;
+    max-width: 944px;
+    margin-top: 20px;
+}
+
+.CommentsItem-head {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 12px;
+}
+
+.CommentsItem-name {
+    font-weight: bold;
+}
+
+.CommentsItem-date {
+    color: #666666;
+    margin-left: 10px;
+}
+
+.CommentsItem-content {
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.CommentsItem-action {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #0087E9;
+}
+
+.CommentsItem-answer {
+    margin-left: 30px;
+}

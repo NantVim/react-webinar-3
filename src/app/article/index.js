@@ -13,6 +13,9 @@ import TopHead from '../../containers/top-head';
 import {useDispatch, useSelector} from 'react-redux';
 import shallowequal from 'shallowequal';
 import articleActions from '../../store-redux/article/actions';
+import Comments from '../../containers/comments';
+import commentsActions from '../../store-redux/comments/actions';
+import listToTree from '../../utils/list-to-tree';
 
 function Article() {
   const store = useStore();
@@ -25,9 +28,13 @@ function Article() {
   useInit(() => {
     //store.actions.article.load(params.id);
     dispatch(articleActions.load(params.id));
+    dispatch(commentsActions.load(params.id));
   }, [params.id]);
 
   const select = useSelector(state => ({
+    commentItems: (listToTree([{_id: params.id}, ...state.comments.items]))[0].children,
+    commentsCount: state.comments.count,
+    commentsWaiting: state.comments.wating,
     article: state.article.data,
     waiting: state.article.waiting,
   }), shallowequal); // Нужно указать функцию для сравнения свойства объекта, так как хуком вернули объект
@@ -47,7 +54,12 @@ function Article() {
       </Head>
       <Navigation/>
       <Spinner active={select.waiting}>
-        <ArticleCard article={select.article} onAdd={callbacks.addToBasket} t={t}/>
+        <ArticleCard  article={select.article} 
+                      onAdd={callbacks.addToBasket} 
+                      t={t}/>
+        <Comments count={select.commentsCount} 
+                  items={select.commentItems} 
+                  waiting={select.waiting}/>
       </Spinner>
     </PageLayout>
   );
