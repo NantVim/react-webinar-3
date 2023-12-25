@@ -1,0 +1,35 @@
+.CommentsInput {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 944px;
+    margin: 20px 0;
+}
+
+.CommentsInput-title {
+    font-size: 12px;
+    padding: 10px 0;
+}
+
+.CommentsInput-input {
+    min-height: 76px;
+    font-size: 14px;
+    resize: none;
+}
+
+.CommentsInput-action {
+    padding: 10px 0;
+}
+
+.action-item {
+    margin-right: 10px;
+}
+
+.CommentsInput-message {
+    display: flex;
+    font-size: 16px;
+}
+
+.message-link {
+    color: #0087E9;
+}

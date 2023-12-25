@@ -1,5 +1,5 @@
-import {memo, useCallback, useMemo} from 'react';
-import {useParams} from 'react-router-dom';
+import {memo, useCallback, useEffect, useMemo} from 'react';
+import {useParams, useLocation} from 'react-router-dom';
 import useStore from '../../hooks/use-store';
 import useTranslate from '../../hooks/use-translate';
 import useInit from '../../hooks/use-init';
@@ -19,10 +19,8 @@ import listToTree from '../../utils/list-to-tree';
 
 function Article() {
   const store = useStore();
-
   const dispatch = useDispatch();
   // Параметры из пути /articles/:id
-
   const params = useParams();
 
   useInit(() => {
@@ -35,6 +33,9 @@ function Article() {
     commentItems: (listToTree([{_id: params.id}, ...state.comments.items]))[0].children,
     commentsCount: state.comments.count,
     commentsWaiting: state.comments.wating,
+    inputValue: state.comments.input.value,
+    exists: store.getState().session.exists,
+    openId: state.comments.input.commentId,
     article: state.article.data,
     waiting: state.article.waiting,
   }), shallowequal); // Нужно указать функцию для сравнения свойства объекта, так как хуком вернули объект
@@ -59,7 +60,10 @@ function Article() {
                       t={t}/>
         <Comments count={select.commentsCount} 
                   items={select.commentItems} 
-                  waiting={select.waiting}/>
+                  waiting={select.waiting}
+                  openId={select.openId}
+                  inputValue={select.inputValue}
+                  exists={select.exists}/>
       </Spinner>
     </PageLayout>
   );

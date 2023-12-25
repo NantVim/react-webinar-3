@@ -24,14 +24,17 @@
 .CommentsItem-content {
     margin-top: 10px;
     font-size: 14px;
+    word-break: break-word;
 }
 
 .CommentsItem-action {
     margin-top: 10px;
     font-size: 12px;
     color: #0087E9;
+    cursor: pointer;
+    max-width: 60px;
 }
 
-.CommentsItem-answer {
+.CommentsItem-answer-gap {
     margin-left: 30px;
 }
