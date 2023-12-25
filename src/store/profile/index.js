@@ -37,7 +37,7 @@ class ProfileState extends StoreModule {
 
     async authCheck() {
         try {
-            const response = await fetch(`/api/v1/users/self?fields=username`, {
+            const response = await fetch(`/api/v1/users/self?fields=profile(name)`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8',
@@ -48,7 +48,7 @@ class ProfileState extends StoreModule {
 
             this.setState({
                 ...this.getState(),
-                username: json.result.username,
+                name: json.result.profile.name,
                 isLogin: true
             })
         } catch (error) {

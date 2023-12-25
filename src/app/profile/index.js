@@ -43,7 +43,7 @@ function Profile() {
 
     return (
         <PageLayout>
-            <ProfileTool username={select.username} signOut={callbacks.signOut} t={t} />
+            <ProfileTool username={select.profile.name} signOut={callbacks.signOut} t={t} />
             <Head title={t('title')}>
                 <LocaleSelect />
             </Head>

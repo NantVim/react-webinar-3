@@ -18,7 +18,7 @@ function Auth() {
   const store = useStore();
 
   const select = useSelector(state => ({
-    username: state.profile.username
+    name: state.profile.name
   }))
 
   const callbacks = {
@@ -34,7 +34,7 @@ function Auth() {
 
   return (
     <PageLayout>
-      <ProfileTool username={select.username} signOut={callbacks.signOut} t={t}/>
+      <ProfileTool username={select.name} signOut={callbacks.signOut} t={t}/>
       <Head title={t('title')}>
         <LocaleSelect/>
       </Head>

@@ -28,7 +28,7 @@ function Article() {
   const select = useSelector(state => ({
     article: state.article.data,
     waiting: state.article.waiting,
-    username: state.profile.username
+    name: state.profile.name
   }));
 
   const {t} = useTranslate();
@@ -42,7 +42,7 @@ function Article() {
 
   return (
     <PageLayout>
-      <ProfileTool username={select.username} signOut={callbacks.signOut} t={t}/>
+      <ProfileTool username={select.name} signOut={callbacks.signOut} t={t}/>
       <Head title={select.article.title}>
         <LocaleSelect/>
       </Head>
